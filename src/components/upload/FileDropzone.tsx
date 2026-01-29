@@ -36,8 +36,10 @@ export function FileDropzone({ onDrop, isUploading, isProcessing, error, file, p
                 <div
                     {...getRootProps()}
                     className={cn(
-                        "flex flex-col items-center justify-center p-10 cursor-pointer transition-colors min-h-[300px]",
-                        isDragActive ? "bg-emerald-50/50" : "hover:bg-gray-50/50",
+                        "flex flex-col items-center justify-center p-10 cursor-pointer transition-all duration-300 min-h-[300px] border-2 border-dashed rounded-lg",
+                        isDragActive
+                            ? "bg-primary/10 border-primary"
+                            : "bg-muted/30 border-muted-foreground/20 hover:bg-muted/50 hover:border-primary/50",
                         (isUploading || isProcessing) && "cursor-not-allowed opacity-70"
                     )}
                 >
@@ -80,8 +82,8 @@ export function FileDropzone({ onDrop, isUploading, isProcessing, error, file, p
                         </div>
                     ) : (
                         <div className="flex flex-col items-center space-y-4 text-center">
-                            <div className="p-4 bg-gray-100 rounded-full">
-                                <Upload className="h-8 w-8 text-gray-400" />
+                            <div className="p-4 bg-emerald-500/10 rounded-full">
+                                <Upload className="h-8 w-8 text-emerald-500" />
                             </div>
                             <div>
                                 <h3 className="text-lg font-semibold">Drop your JSON file here</h3>

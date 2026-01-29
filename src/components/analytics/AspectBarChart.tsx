@@ -12,7 +12,7 @@ export function AspectBarChart({ analytics }: AspectBarChartProps) {
     const data = analytics.aspect_frequency;
 
     return (
-        <Card className="col-span-1">
+        <Card className="col-span-1 bg-card/50 backdrop-blur-sm border-muted/20">
             <CardHeader>
                 <CardTitle>Top Mentioned Aspects</CardTitle>
             </CardHeader>
@@ -24,11 +24,15 @@ export function AspectBarChart({ analytics }: AspectBarChartProps) {
                             dataKey="aspect"
                             type="category"
                             width={80}
-                            tick={{ fontSize: 12 }}
+                            tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }}
                         // RTL support might need adjustments, but standard text direction usually works
                         />
-                        <Tooltip cursor={{ fill: 'transparent' }} />
-                        <Bar dataKey="count" fill="#3b82f6" radius={[0, 4, 4, 0]} barSize={20} />
+                        <Tooltip
+                            cursor={false}
+                            contentStyle={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', borderRadius: 'var(--radius)' }}
+                            itemStyle={{ color: 'var(--foreground)' }}
+                        />
+                        <Bar dataKey="count" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={20} />
                     </BarChart>
                 </ResponsiveContainer>
             </CardContent>

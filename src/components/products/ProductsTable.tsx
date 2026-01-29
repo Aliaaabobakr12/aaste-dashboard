@@ -135,7 +135,7 @@ export function ProductsTable({ data }: ProductsTableProps) {
 
     return (
         <div className="space-y-4">
-            <div className="flex items-center py-4">
+            <div className="flex items-center pb-4">
                 <Input
                     placeholder="Filter products..."
                     value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -145,7 +145,7 @@ export function ProductsTable({ data }: ProductsTableProps) {
                     className="max-w-sm"
                 />
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-lg border border-muted/20 bg-card/50 backdrop-blur-sm overflow-hidden shadow-sm">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -171,6 +171,7 @@ export function ProductsTable({ data }: ProductsTableProps) {
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
+                                    className="hover:bg-emerald-500/5 border-muted/20 transition-colors"
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>

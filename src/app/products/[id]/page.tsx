@@ -44,7 +44,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                 <div className="flex items-start justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">{analytics.product_name}</h1>
+                        <h1 className="text-3xl font-bold tracking-tight mb-1">{analytics.product_name}</h1>
                         <div className="flex items-center gap-2 mt-2">
                             <Badge variant="outline">{reviews[0]?.category}</Badge>
                             <span className="text-sm text-muted-foreground">ID: {decodeURIComponent(id)}</span>

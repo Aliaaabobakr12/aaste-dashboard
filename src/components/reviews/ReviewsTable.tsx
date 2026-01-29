@@ -129,6 +129,7 @@ export function ReviewsTable({ data }: ReviewsTableProps) {
                                 <React.Fragment key={row.id}>
                                     <TableRow
                                         data-state={row.getIsSelected() && "selected"}
+                                        className="hover:bg-emerald-500/5 transition-colors"
                                     >
                                         {row.getVisibleCells().map((cell) => (
                                             <TableCell key={cell.id}>

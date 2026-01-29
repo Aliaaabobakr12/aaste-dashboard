@@ -27,7 +27,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'JSON must be an array of reviews' }, { status: 400 });
         }
 
-        const jobId = uuidv4();
+        const safeOriginalName = file.name.replace('.json', '').replace(/[^a-zA-Z0-9-_]/g, '_');
+        const jobId = `${uuidv4()}__${safeOriginalName}`;
         const filename = `${jobId}.json`;
         await saveUpload(filename, jsonContent);
 

@@ -7,13 +7,13 @@ import { Menu } from 'lucide-react';
 
 export function Navbar() {
     return (
-        <div className="flex items-center p-4">
+        <div className="flex items-center p-4 border-b border-muted/20 bg-background/50 backdrop-blur-md">
             {/* Mobile trigger placeholder */}
             <div className="md:hidden mr-4">
-                <Menu className="h-6 w-6" />
+                <Menu className="h-6 w-6 text-muted-foreground" />
             </div>
             <div className="flex w-full justify-end">
-                {/* User menu or other actions could go here */}
+                {/* Future User Menu */}
             </div>
         </div>
     );

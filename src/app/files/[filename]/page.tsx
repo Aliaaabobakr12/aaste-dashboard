@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 export default function FileAnalysisPage({ params }: { params: Promise<{ filename: string }> }) {
     const { filename } = use(params);
     const decodedFilename = decodeURIComponent(filename);
+    const displayName = decodedFilename.replace('.json', '').split('__')[1] || decodedFilename;
 
     const [analytics, setAnalytics] = useState<ProductAnalytics | null>(null);
     const [reviews, setReviews] = useState<ProcessedReview[] | null>(null);
@@ -50,7 +51,7 @@ export default function FileAnalysisPage({ params }: { params: Promise<{ filenam
     if (isLoading) {
         return (
             <div className="flex h-[50vh] items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-emerald-500" />
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
         );
     }
@@ -63,14 +64,14 @@ export default function FileAnalysisPage({ params }: { params: Promise<{ filenam
         <div className="space-y-8 animate-in fade-in duration-500">
             {/* Header */}
             <div className="flex flex-col gap-4">
-                <Link href="/files" className="text-sm text-muted-foreground flex items-center hover:text-emerald-500 transition-colors w-fit">
+                <Link href="/files" className="text-sm text-muted-foreground flex items-center hover:text-primary transition-colors w-fit">
                     <ArrowLeft className="mr-2 h-4 w-4" /> Back to Files
                 </Link>
 
                 <div className="flex items-start justify-between">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">File Analysis</h1>
-                        <p className="text-muted-foreground mt-1">{decodedFilename}</p>
+                        <p className="text-sm text-muted-foreground/80 mt-1">{displayName}</p>
                     </div>
                 </div>
             </div>

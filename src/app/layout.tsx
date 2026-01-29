@@ -23,11 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${cairo.variable}`} suppressHydrationWarning>
         <Providers>
-          <div className="h-screen w-full relative overflow-hidden bg-gray-50 dark:bg-gray-900">
-            <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[80] bg-gray-900">
+          <div className="h-screen w-full relative overflow-hidden bg-background">
+            <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[80] bg-sidebar border-r border-sidebar-border backdrop-blur-xl">
               <Sidebar />
             </div>
-            <main className="md:pl-72 h-full flex flex-col">
+            <main className="md:pl-72 h-full flex flex-col transition-all duration-300 ease-in-out">
               <Navbar />
               <div className="flex-1 p-8 overflow-y-auto min-h-0">
                 {children}

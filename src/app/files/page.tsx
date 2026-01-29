@@ -39,6 +39,11 @@ export default function FilesPage() {
         window.open(`/api/files/${fileName}/download`, '_blank');
     };
 
+    const getDisplayName = (fileName: string) => {
+        const parts = fileName.replace('.json', '').split('__');
+        return parts.length > 1 ? parts[1] : fileName;
+    };
+
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-96">
@@ -49,21 +54,26 @@ export default function FilesPage() {
 
     return (
         <div className="space-y-6">
-            <h2 className="text-3xl font-bold tracking-tight">Processed Files</h2>
+            <div>
+                <h2 className="text-3xl font-bold tracking-tight mb-1">Processed Files</h2>
+                <p className="text-sm text-muted-foreground/80">
+                    Manage and review all uploaded and analyzed files.
+                </p>
+            </div>
 
-            <Card>
+            <Card className="bg-card/40 backdrop-blur-sm border-emerald-500/10 shadow-[0_0_15px_-3px_rgba(16,185,129,0.1)]">
                 <CardHeader>
-                    <CardTitle>File Management</CardTitle>
+                    <CardTitle className="text-xl">File Management</CardTitle>
                 </CardHeader>
                 <CardContent>
                     {files.length === 0 ? (
-                        <div className="text-center py-10 text-gray-500">
+                        <div className="text-center py-10 text-muted-foreground">
                             No processed files found. Upload a review file to get started.
                         </div>
                     ) : (
                         <Table>
                             <TableHeader>
-                                <TableRow>
+                                <TableRow className="hover:bg-transparent border-emerald-500/10 text-muted-foreground">
                                     <TableHead>File Name</TableHead>
                                     <TableHead>Processed Date</TableHead>
                                     <TableHead>Reviews</TableHead>
@@ -73,10 +83,12 @@ export default function FilesPage() {
                             </TableHeader>
                             <TableBody>
                                 {files.map((file) => (
-                                    <TableRow key={file.name}>
+                                    <TableRow key={file.name} className="hover:bg-emerald-500/5 border-emerald-500/10 transition-colors">
                                         <TableCell className="font-medium flex items-center">
-                                            <FileText className="h-4 w-4 mr-2 text-blue-500" />
-                                            {file.name}
+                                            <div className="bg-emerald-500/10 p-2 rounded-lg mr-3">
+                                                <FileText className="h-4 w-4 text-emerald-400" />
+                                            </div>
+                                            {getDisplayName(file.name)}
                                         </TableCell>
                                         <TableCell>
                                             {format(new Date(file.date), 'PP p')}
@@ -88,6 +100,7 @@ export default function FilesPage() {
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
+                                                    className="border-primary/20 hover:bg-primary/20 hover:text-primary"
                                                     asChild
                                                 >
                                                     <a href={`/files/${file.name}`}>
@@ -97,6 +110,7 @@ export default function FilesPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="sm"
+                                                    className="hover:bg-muted"
                                                     onClick={() => handleDownload(file.name)}
                                                     title="Download JSON"
                                                 >

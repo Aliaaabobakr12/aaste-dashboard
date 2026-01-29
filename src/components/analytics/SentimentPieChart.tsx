@@ -8,7 +8,7 @@ interface SentimentPieChartProps {
     analytics: ProductAnalytics;
 }
 
-const COLORS = ['#22c55e', '#ef4444', '#eab308']; // Green, Red, Yellow
+const COLORS = ['var(--chart-2)', 'var(--destructive)', 'var(--chart-4)']; // Green (Positive), Red (Negative), Yellow (Neutral)
 
 export function SentimentPieChart({ analytics }: SentimentPieChartProps) {
     const { positive, negative, neutral } = analytics.sentiment_distribution;
@@ -20,7 +20,7 @@ export function SentimentPieChart({ analytics }: SentimentPieChartProps) {
     ];
 
     return (
-        <Card className="col-span-1">
+        <Card className="col-span-1 bg-card/50 backdrop-blur-sm border-muted/20">
             <CardHeader>
                 <CardTitle>Sentiment Distribution</CardTitle>
             </CardHeader>
@@ -37,11 +37,15 @@ export function SentimentPieChart({ analytics }: SentimentPieChartProps) {
                             dataKey="value"
                         >
                             {data.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="transparent" />
                             ))}
                         </Pie>
-                        <Tooltip />
-                        <Legend verticalAlign="bottom" height={36} />
+                        <Tooltip
+                            contentStyle={{ backgroundColor: 'var(--card)', borderColor: 'var(--border)', borderRadius: 'var(--radius)' }}
+                            itemStyle={{ color: 'var(--foreground)' }}
+                            cursor={false}
+                        />
+                        <Legend verticalAlign="bottom" height={36} iconType="circle" />
                     </PieChart>
                 </ResponsiveContainer>
             </CardContent>

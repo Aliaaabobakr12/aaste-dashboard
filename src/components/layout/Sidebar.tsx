@@ -34,14 +34,17 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <div className="space-y-4 py-4 flex flex-col h-full bg-slate-900 text-white">
-            <div className="px-3 py-2 flex-1">
+        <div className="space-y-4 py-4 flex flex-col h-full bg-gradient-to-b from-sidebar/80 via-sidebar/60 to-sidebar/40 border-r border-sidebar-border backdrop-blur-xl text-sidebar-foreground transition-all duration-300 relative overflow-hidden">
+            {/* Ambient Background Glow */}
+            <div className="absolute top-0 left-0 w-full h-32 bg-primary/5 blur-3xl pointer-events-none" />
+
+            <div className="px-3 py-2 flex-1 relative z-10">
                 <Link href="/" className="flex items-center pl-3 mb-14">
                     <div className="flex flex-col w-fit">
                         <h1 className="text-2xl font-bold leading-none tracking-tight">
                             ASTE<span className="text-emerald-500">Dash</span>
                         </h1>
-                        <div className="h-[1px] bg-emerald-500/30 w-full my-0.5"></div>
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent w-full my-0.5"></div>
                         <div className="flex justify-between w-full px-[1px]">
                             <span className="text-xs text-emerald-500/80 font-[family-name:var(--font-cairo)] font-bold w-full text-center tracking-[0.2em] leading-none">
                                 بالعربي
@@ -55,12 +58,14 @@ export function Sidebar() {
                             key={route.href}
                             href={route.href}
                             className={cn(
-                                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                                pathname === route.href ? "text-white bg-white/10" : "text-zinc-400"
+                                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer rounded-lg transition-all duration-200 relative",
+                                pathname === route.href
+                                    ? "text-sidebar-primary-foreground bg-sidebar-primary shadow-md shadow-primary/20"
+                                    : "text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent/50"
                             )}
                         >
                             <div className="flex items-center flex-1">
-                                <route.icon className={cn("h-5 w-5 mr-3", route.href === pathname ? "text-emerald-500" : "text-zinc-400")} />
+                                <route.icon className={cn("h-5 w-5 mr-3", route.href === pathname ? "text-white" : "text-emerald-500 group-hover:text-emerald-400")} />
                                 {route.label}
                             </div>
                         </Link>
