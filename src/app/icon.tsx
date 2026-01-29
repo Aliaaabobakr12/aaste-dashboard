@@ -1,10 +1,9 @@
-
 import { ImageResponse } from 'next/og';
 
 // Image metadata
 export const size = {
-    width: 32,
-    height: 32,
+    width: 256,
+    height: 256,
 };
 export const contentType = 'image/png';
 
@@ -15,19 +14,47 @@ export default function Icon() {
             // ImageResponse JSX element
             <div
                 style={{
-                    fontSize: 20,
-                    background: '#020617', // slate-950, dark background
+                    fontSize: 40,
+                    background: '#0f172a', // slate-900
                     width: '100%',
                     height: '100%',
                     display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: 'white',
                     fontWeight: 800,
-                    borderRadius: '20%',
+                    borderRadius: '40px', // About 15-20% rounded
                 }}
             >
-                A<span style={{ color: '#10b981' }}>D</span>
+                {/* Logo Text */}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    ASTE<span style={{ color: '#10b981' }}>Dash</span>
+                </div>
+
+                {/* Separator Line */}
+                <div
+                    style={{
+                        width: '80%',
+                        height: '4px',
+                        background: 'rgba(16, 185, 129, 0.3)', // emerald-500/30
+                        margin: '12px 0',
+                        borderRadius: '2px'
+                    }}
+                />
+
+                {/* Arabic Subtitle */}
+                <div
+                    style={{
+                        display: 'flex',
+                        fontSize: 24,
+                        color: 'rgba(16, 185, 129, 0.8)', // emerald-500/80
+                        letterSpacing: '0.1em',
+                        fontWeight: 700
+                    }}
+                >
+                    بالعربي
+                </div>
             </div>
         ),
         // ImageResponse options
