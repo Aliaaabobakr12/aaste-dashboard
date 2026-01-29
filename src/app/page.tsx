@@ -14,15 +14,15 @@ export default function Home() {
   const totalProducts = products?.length || 0;
 
   return (
-    <div className="space-y-8">
-      <div>
+    <div className="h-full flex flex-col space-y-6">
+      <div className="shrink-0">
         <h1 className="text-4xl font-bold tracking-tight mb-2">ASTE Dashboard</h1>
         <p className="text-xl text-muted-foreground">
           Aspect-Sentiment-Triplet Extraction for Arabic Product Reviews
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="shrink-0 grid gap-4 md:grid-cols-3">
         <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 text-white border-none shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-emerald-100">Processed Products</CardTitle>
@@ -62,12 +62,12 @@ export default function Home() {
         </Card>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
+      <div className="flex-1 min-h-0 grid md:grid-cols-2 gap-6 pb-2">
+        <Card className="flex flex-col h-full overflow-hidden">
+          <CardHeader className="shrink-0">
             <CardTitle>How it works</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1 overflow-y-auto">
             <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
               <li>Upload a JSON file containing product reviews</li>
               <li>System processes text using ASTE model (Mock)</li>
@@ -77,11 +77,11 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
+        <Card className="flex flex-col h-full overflow-hidden">
+          <CardHeader className="shrink-0">
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1 overflow-y-auto">
             {products && products.length > 0 ? (
               <div className="space-y-4">
                 {products.slice(0, 3).map((product) => (
