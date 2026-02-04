@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { saveProcessedFile } from '@/lib/storage';
+import { saveProcessedFile, getUploadContent } from '@/lib/storage';
 import { mockProcessReviews } from '@/lib/mockAsteProcessor'; // Keep as fallback/type ref if needed
 import { parsePythonTriplets } from '@/lib/aste-parser';
 import { ProcessedReview, RawReview } from '@/types';
-import fs from 'fs/promises';
-import path from 'path';
 
-const UPLOADS_DIR = path.join(process.cwd(), 'data', 'uploads');
 const EXTERNAL_API_URL = process.env.ASTE_API_URL || 'https://abdelrahmangalhom-aaste.hf.space/analyze';
 
 export async function POST(request: NextRequest) {
@@ -19,11 +16,9 @@ export async function POST(request: NextRequest) {
         }
 
         // Read the uploaded file
-        const uploadPath = path.join(UPLOADS_DIR, `${jobId}.json`);
         let rawContent: RawReview[];
         try {
-            const fileContent = await fs.readFile(uploadPath, 'utf-8');
-            rawContent = JSON.parse(fileContent);
+            rawContent = await getUploadContent(`${jobId}.json`);
         } catch (e) {
             return NextResponse.json({ error: 'Upload not found' }, { status: 404 });
         }

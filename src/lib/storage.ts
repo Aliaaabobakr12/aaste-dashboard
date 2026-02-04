@@ -27,6 +27,13 @@ export async function saveUpload(filename: string, content: any): Promise<string
     return filePath;
 }
 
+// Read raw uploaded file
+export async function getUploadContent(filename: string): Promise<any> {
+    const filePath = path.join(UPLOADS_DIR, filename);
+    const content = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(content);
+}
+
 // Read processed file
 export async function getProcessedFile(jobId: string): Promise<ProcessedReview[]> {
     const filePath = path.join(PROCESSED_DIR, `${jobId}.json`);
