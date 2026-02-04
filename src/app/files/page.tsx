@@ -16,10 +16,6 @@ export default function FilesPage() {
     const queryClient = useQueryClient();
 
     const handleDownload = (fileName: string) => {
-        // Direct link to download if we served static files, but we might need an API 
-        // Current architecture: files are in `processed`, we can serve them via an API or public folder.
-        // Since they are in `data/processed`, they are NOT public. We need a download endpoint.
-        // For now, let's create a simple link to a download API.
         window.open(`/api/files/${fileName}/download`, '_blank');
     };
 
