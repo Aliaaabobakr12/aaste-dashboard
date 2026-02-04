@@ -2,34 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { FileMetadata } from '@/types';
+import { useQueryClient } from '@tanstack/react-query';
+import { useFiles } from '@/hooks/useFiles';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Download, FileText, Loader2 } from 'lucide-react';
+import { Download, FileText, Loader2, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 export default function FilesPage() {
-    const [files, setFiles] = useState<FileMetadata[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        fetchFiles();
-    }, []);
-
-    const fetchFiles = async () => {
-        try {
-            const res = await fetch('/api/files');
-            if (!res.ok) throw new Error('Failed to fetch files');
-            const data = await res.json();
-            setFiles(data);
-        } catch (error) {
-            console.error('Error fetching files:', error);
-            toast.error('Failed to load files');
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const { data: files = [], isLoading } = useFiles();
+    const queryClient = useQueryClient();
 
     const handleDownload = (fileName: string) => {
         // Direct link to download if we served static files, but we might need an API 
@@ -43,6 +27,34 @@ export default function FilesPage() {
         const parts = fileName.replace('.json', '').split('__');
         return parts.length > 1 ? parts[1] : fileName;
     };
+
+    const handleDelete = async (fileName: string) => {
+        if (!confirm('Are you sure you want to delete this file? This action cannot be undone.')) {
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/files/${fileName}`, {
+                method: 'DELETE',
+            });
+
+            if (!res.ok) throw new Error('Failed to delete file');
+
+            toast.success('File and insights deleted successfully');
+
+            // Invalidate all queries to ensure dashboard and details update
+            await queryClient.invalidateQueries({ queryKey: ['files'] });
+            await queryClient.invalidateQueries({ queryKey: ['products'] });
+            await queryClient.invalidateQueries({ queryKey: ['product'] });
+            await queryClient.invalidateQueries({ queryKey: ['reviews'] });
+
+        } catch (error) {
+            console.error('Error deleting file:', error);
+            toast.error('Failed to delete file');
+        }
+    };
+
+
 
     if (isLoading) {
         return (
@@ -115,6 +127,15 @@ export default function FilesPage() {
                                                     title="Download JSON"
                                                 >
                                                     <Download className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    className="hover:bg-red-500/10 hover:text-red-500 text-muted-foreground"
+                                                    onClick={() => handleDelete(file.name)}
+                                                    title="Delete File"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
                                                 </Button>
                                             </div>
                                         </TableCell>

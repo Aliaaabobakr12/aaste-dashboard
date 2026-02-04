@@ -88,3 +88,28 @@ export async function listProcessedFilesWithMetadata(): Promise<{ name: string; 
     }
 }
 
+// Delete processed file and its corresponding raw upload
+export async function deleteProcessedFile(filename: string): Promise<boolean> {
+    await ensureDirectories();
+    const processedPath = path.join(PROCESSED_DIR, filename);
+    const rawPath = path.join(UPLOADS_DIR, filename); // Assuming same filename used
+
+    try {
+        // Try to delete processed file
+        await fs.unlink(processedPath);
+
+        // Try to delete raw file (don't fail if missing)
+        try {
+            await fs.unlink(rawPath);
+        } catch (e) {
+            console.warn(`Could not delete raw file ${filename}`, e);
+        }
+
+        return true;
+    } catch (error) {
+        console.error(`Error deleting file ${filename}:`, error);
+        return false;
+    }
+}
+
+
