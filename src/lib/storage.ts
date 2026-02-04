@@ -1,9 +1,15 @@
 import fs from 'fs/promises';
 import path from 'path';
+import os from 'os';
 import { UploadJob, Product, ProcessedReview } from '@/types';
 
-// Define paths relative to the project root (process.cwd())
-const DATA_DIR = path.join(process.cwd(), 'data');
+// Define paths
+// On Vercel (Production), we must use /tmp for write access.
+// In Development, we use local 'data' folder for persistence.
+const DATA_DIR = process.env.NODE_ENV === 'production'
+    ? path.join(os.tmpdir(), 'aste_dashboard_data')
+    : path.join(process.cwd(), 'data');
+
 const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 const PROCESSED_DIR = path.join(DATA_DIR, 'processed');
 
