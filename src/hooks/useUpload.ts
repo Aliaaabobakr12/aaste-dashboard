@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -14,6 +14,7 @@ export function useUpload() {
     const [file, setFile] = useState<File | null>(null);
     const [progress, setProgress] = useState(0);
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const uploadMutation = useMutation({
         mutationFn: async (fileToUpload: File) => {
@@ -82,7 +83,13 @@ export function useUpload() {
 
             return finalResult;
         },
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
+            // Invalidate queries to update lists
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: ['products'] }),
+                queryClient.invalidateQueries({ queryKey: ['files'] }),
+            ]);
+
             // Redirect after brief delay to show 100%
             setTimeout(() => {
                 router.push('/products');
